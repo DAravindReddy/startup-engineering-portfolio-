@@ -1,0 +1,15 @@
+# Build artifacts
+*.o
+*.exe
+*.out
+*.elf
+*.bin
+*.hex
+test_runner
+
+# IDE & Editor caches
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

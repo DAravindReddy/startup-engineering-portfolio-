@@ -1,5 +1,6 @@
 # Startup Engineering Portfolio — Centralized Architecture Repository
 
+[![Portfolio: Live Web App](https://img.shields.io/badge/Portfolio-Interactive%20Live%20Website-cyan.svg)](https://daravindreddy.github.io/startup-engineering-portfolio-/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GCC](https://img.shields.io/badge/GCC-16.1.0-green.svg)](https://gcc.gnu.org/)
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
@@ -11,6 +12,7 @@
 > **Author & Sole Maintainer:** Aravind Reddy  
 > **Contact Email:** [`aravindreddy0726@gmail.com`](mailto:aravindreddy0726@gmail.com)  
 > **GitHub Profile:** [https://github.com/DAravindReddy](https://github.com/DAravindReddy)  
+> **Live Interactive Portfolio:** [`https://daravindreddy.github.io/startup-engineering-portfolio-/`](https://daravindreddy.github.io/startup-engineering-portfolio-/)  
 > **Contributor Project Spec:** [`ALIGNERR_PROJECT_SPECIFICATION.md`](ALIGNERR_PROJECT_SPECIFICATION.md)  
 > **Primary Engineering Domains:** Intelligent Embedded Systems, Linux Kernel & Device Drivers, Industrial IoT, and Systems Programming.
 

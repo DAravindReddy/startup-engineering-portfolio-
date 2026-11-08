@@ -64,10 +64,13 @@ class TestAndroidHealthPredictionAI(unittest.TestCase):
         self.assertAlmostEqual(float(vec2[-2]), 3.0, places=1)
 
     def test_model_training_and_inference(self):
+        import random
+        random.seed(42)
+        np.random.seed(42)
         with tempfile.TemporaryDirectory() as tmpdir:
             # 1. Train model on small baseline
             X_train = generate_training_baseline(n_samples=250)
-            bundle = train_isolation_forest(X_train, n_estimators=40, contamination=0.05)
+            bundle = train_isolation_forest(X_train, n_estimators=40, contamination=0.05, random_state=42)
 
             model_file = os.path.join(tmpdir, "test_model.joblib")
             import joblib
@@ -77,6 +80,10 @@ class TestAndroidHealthPredictionAI(unittest.TestCase):
             predictor = AndroidHealthPredictor(model_path=model_file)
             collector = ADBDeviceCollector(force_mock=True)
             preprocessor = TelemetryFeaturePreprocessor(window_size=5)
+
+            # Prime preprocessor with a couple baseline packets
+            for _ in range(3):
+                preprocessor.add_packet(collector.collect(inject_anomaly=None))
 
             # 3. Test Normal Sample -> Should be HEALTHY or LOW RISK
             normal_pkt = collector.collect(inject_anomaly=None)

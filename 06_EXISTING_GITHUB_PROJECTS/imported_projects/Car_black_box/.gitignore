@@ -1,0 +1,15 @@
+# Build and IDE artifacts
+*.p1
+*.d
+*.obj
+*.o
+*.hex
+*.cof
+*.sdb
+*.sym
+*.lst
+*.rlf
+*.cmf
+build/
+dist/
+nbproject/private/

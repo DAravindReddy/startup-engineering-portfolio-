@@ -1,0 +1,181 @@
+name: Kernelwise Portfolio Monorepo CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test-c-cpp:
+    name: C/C++ Native Unit Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [ gcc, clang ]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Build Essentials
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc g++ clang
+
+      - name: Build Shared C Libraries
+        run: |
+          CC=${{ matrix.compiler }}
+          $CC -Wall -Wextra -Werror -pedantic -std=c11 -c \
+            08_SHARED_LIBRARIES/common_embedded_drivers/i2c_hal.c \
+            08_SHARED_LIBRARIES/common_embedded_drivers/uart_hal.c \
+            08_SHARED_LIBRARIES/sensor_libraries/dht11_driver.c \
+            08_SHARED_LIBRARIES/communication_protocols/packet_protocol.c \
+            -I 08_SHARED_LIBRARIES/common_embedded_drivers \
+            -I 08_SHARED_LIBRARIES/sensor_libraries \
+            -I 08_SHARED_LIBRARIES/communication_protocols
+
+      - name: Test Smart Home Automation (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 01_EMBEDDED_SYSTEMS/smart_home_automation/source_code/include \
+            01_EMBEDDED_SYSTEMS/smart_home_automation/source_code/src/actuator_controller.cpp \
+            01_EMBEDDED_SYSTEMS/smart_home_automation/source_code/src/bluetooth_handler.cpp \
+            01_EMBEDDED_SYSTEMS/smart_home_automation/source_code/src/irrigation_system.cpp \
+            01_EMBEDDED_SYSTEMS/smart_home_automation/source_code/src/sensor_manager.cpp \
+            01_EMBEDDED_SYSTEMS/smart_home_automation/tests/unit_tests/test_smart_home.cpp \
+            -o test_smart_home
+          ./test_smart_home
+
+      - name: Test Object Avoiding Robot (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 01_EMBEDDED_SYSTEMS/robotics/object_avoiding_robot/source_code/include \
+            01_EMBEDDED_SYSTEMS/robotics/object_avoiding_robot/source_code/src/motor_driver.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/object_avoiding_robot/source_code/src/navigation_fsm.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/object_avoiding_robot/source_code/src/servo_scanner.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/object_avoiding_robot/source_code/src/ultrasonic_sensor.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/object_avoiding_robot/tests/unit_tests/test_navigation_fsm.cpp \
+            -o test_navigation_fsm
+          ./test_navigation_fsm
+
+      - name: Test Fire Fighting Robot (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 01_EMBEDDED_SYSTEMS/robotics/fire_fighting_robot/source_code/include \
+            01_EMBEDDED_SYSTEMS/robotics/fire_fighting_robot/source_code/src/fire_fighting_fsm.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/fire_fighting_robot/source_code/src/flame_sensor_array.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/fire_fighting_robot/source_code/src/motor_driver.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/fire_fighting_robot/source_code/src/pump_controller.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/fire_fighting_robot/tests/unit_tests/test_fire_fighting_fsm.cpp \
+            -o test_fire_fighting_fsm
+          ./test_fire_fighting_fsm
+
+      - name: Test Gesture Controlled Robotic Arm (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 01_EMBEDDED_SYSTEMS/robotics/gesture_controlled_robotic_arm/source_code/include \
+            01_EMBEDDED_SYSTEMS/robotics/gesture_controlled_robotic_arm/source_code/src/kinematics_mapper.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/gesture_controlled_robotic_arm/source_code/src/mpu6050_imu.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/gesture_controlled_robotic_arm/source_code/src/servo_controller.cpp \
+            01_EMBEDDED_SYSTEMS/robotics/gesture_controlled_robotic_arm/tests/unit_tests/test_kinematics_mapper.cpp \
+            -o test_kinematics_mapper
+          ./test_kinematics_mapper
+
+      - name: Test Smart Railway Track System (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 01_EMBEDDED_SYSTEMS/smart_railway_system/source_code/include \
+            01_EMBEDDED_SYSTEMS/smart_railway_system/source_code/src/crack_detector.cpp \
+            01_EMBEDDED_SYSTEMS/smart_railway_system/source_code/src/obstacle_sonar.cpp \
+            01_EMBEDDED_SYSTEMS/smart_railway_system/source_code/src/railway_fsm.cpp \
+            01_EMBEDDED_SYSTEMS/smart_railway_system/source_code/src/signal_gate_controller.cpp \
+            01_EMBEDDED_SYSTEMS/smart_railway_system/tests/unit_tests/test_railway_fsm.cpp \
+            -o test_railway_fsm
+          ./test_railway_fsm
+
+      - name: Test TinyML Arduino BLE Sense AI (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 01_EMBEDDED_SYSTEMS/arduino_ble_sense_ai/source_code/include \
+            01_EMBEDDED_SYSTEMS/arduino_ble_sense_ai/source_code/src/tinyml_anomaly_detector.cpp \
+            01_EMBEDDED_SYSTEMS/arduino_ble_sense_ai/source_code/src/feature_extractor.cpp \
+            01_EMBEDDED_SYSTEMS/arduino_ble_sense_ai/tests/unit_tests/test_tinyml_pipeline.cpp \
+            -o test_tinyml_pipeline
+          ./test_tinyml_pipeline
+
+      - name: Test Smart Garden Irrigation (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 03_IOT_AND_AUTOMATION/smart_garden_irrigation/source_code/include \
+            03_IOT_AND_AUTOMATION/smart_garden_irrigation/source_code/src/irrigation_controller.c \
+            03_IOT_AND_AUTOMATION/smart_garden_irrigation/tests/test_irrigation_controller.cpp \
+            -o test_irrigation_controller
+          ./test_irrigation_controller
+
+      - name: Test Multi-Sensor Monitoring (C++)
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++14 -Wall -Wextra -Werror \
+            -I 03_IOT_AND_AUTOMATION/sensor_monitoring/source_code/include \
+            03_IOT_AND_AUTOMATION/sensor_monitoring/source_code/src/sensor_monitor.c \
+            03_IOT_AND_AUTOMATION/sensor_monitoring/tests/test_sensor_monitoring.cpp \
+            -o test_sensor_monitoring
+          ./test_sensor_monitoring
+
+      - name: Test Embedded Linux Digital Watch (C11)
+        run: |
+          CC=${{ matrix.compiler }}
+          $CC -std=c11 -Wall -Wextra -Werror -pedantic \
+            -I 05_LINUX_AND_SYSTEMS/embedded_linux/digital_watch_system/include \
+            05_LINUX_AND_SYSTEMS/embedded_linux/digital_watch_system/src/watch_core.c \
+            05_LINUX_AND_SYSTEMS/embedded_linux/digital_watch_system/tests/test_watch_core.c \
+            -o test_watch_core
+          ./test_watch_core
+
+      - name: Test Modern C++17 Core Suite
+        run: |
+          CXX=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+          $CXX -std=c++17 -Wall -Wextra -Werror \
+            -I 04_SOFTWARE_ENGINEERING/CPP_programming/include \
+            04_SOFTWARE_ENGINEERING/CPP_programming/src/main.cpp \
+            -o test_cpp_core -pthread
+          ./test_cpp_core
+
+  build-and-test-python:
+    name: Python AI/ML & Telemetry Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.10", "3.11", "3.12" ]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scikit-learn joblib flask
+
+      - name: Run Android AI Unit Tests
+        run: |
+          cd 02_AI_ML_SYSTEMS/android_device_health_prediction
+          python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Run Linux AI Unit Tests
+        run: |
+          cd 02_AI_ML_SYSTEMS/linux_device_health_prediction
+          python -m unittest discover -s tests -p "test_*.py" -v

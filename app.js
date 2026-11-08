@@ -234,6 +234,9 @@ function initRenderProjects(domain) {
         <button class="btn btn-primary btn-sm" onclick="openProjectModal('${p.id}')">
           <i class="fa-solid fa-code"></i> Inspect Architecture
         </button>
+        <a href="${PORTFOLIO_DATA.author.repo}/raw/main/${p.path}/project_presentation.pptx" download class="btn btn-ai btn-sm" title="Download Executive PowerPoint Deck">
+          <i class="fa-solid fa-file-powerpoint"></i> PPT
+        </a>
         <button class="btn btn-outline btn-sm" onclick="sendProjectPrompt('${p.title}')">
           <i class="fa-solid fa-sparkles"></i> AI Deep Dive
         </button>
@@ -352,9 +355,15 @@ function openProjectModal(projectId) {
       <h4 style="color:var(--accent-cyan-bright); margin-bottom:0.5rem;">Verified Source Implementation</h4>
       <pre><code>${p.codeSnippet}</code></pre>
     </div>
-    <div style="margin-top: 1.5rem; display:flex; gap:0.75rem;">
+    <div style="margin-top: 1.5rem; display:flex; flex-wrap:wrap; gap:0.75rem;">
       <a href="${PORTFOLIO_DATA.author.repo}/tree/main/${p.path}" target="_blank" class="btn btn-primary btn-sm">
         <i class="fa-brands fa-github"></i> Inspect Full Source On GitHub
+      </a>
+      <a href="${PORTFOLIO_DATA.author.repo}/raw/main/${p.path}/project_presentation.pptx" download class="btn btn-ai btn-sm">
+        <i class="fa-solid fa-file-powerpoint"></i> Download Presentation (.pptx)
+      </a>
+      <a href="${PORTFOLIO_DATA.author.repo}/blob/main/${p.path}/PRESENTATION.md" target="_blank" class="btn btn-outline btn-sm">
+        <i class="fa-solid fa-file-lines"></i> View Slide Deck Transcript
       </a>
       <button class="btn btn-outline btn-sm" onclick="sendProjectPrompt('${p.title}')">
         <i class="fa-solid fa-robot"></i> Ask Aravind AI About This System

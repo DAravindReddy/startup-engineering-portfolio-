@@ -1,0 +1,83 @@
+# Compiled Object files, Executables, and Libraries
+*.o
+*.obj
+*.ko
+*.elf
+*.hex
+*.bin
+*.out
+*.app
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# C / C++ Build Artifacts
+build/
+bin/
+out/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+Makefile.in
+*.dSYM/
+
+# Python Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+*.egg-info/
+dist/
+eggs/
+.eggs/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.cproject
+.settings/
+*.swp
+*.swo
+*~
+*.bak
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# Arduino / PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+*.hex
+*.elf
+
+# Sensitive Files & Local Credentials
+*.pem
+*.key
+*.env
+*.env.local
+secrets.json
+credentials.json

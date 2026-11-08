@@ -1,0 +1,14 @@
+[Unit]
+Description=Kernelwise Labs Embedded Digital Watch Service
+After=network.target time-sync.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/digital_watch --demo
+Restart=always
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

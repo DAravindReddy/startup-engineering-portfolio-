@@ -1,0 +1,13 @@
+# Build artifacts
+*.o
+*.obj
+*.elf
+*.hex
+*.bin
+*.exe
+test_runner
+test_runner.exe
+
+# Arduino IDE
+.arduino15/
+build/

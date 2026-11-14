@@ -12,7 +12,7 @@
 > **Author & Sole Maintainer:** Aravind Reddy  
 > **Contact Email:** [`aravindreddy0726@gmail.com`](mailto:aravindreddy0726@gmail.com)  
 > **GitHub Profile:** [https://github.com/DAravindReddy](https://github.com/DAravindReddy)  
-> **Live Interactive Portfolio:** [`https://daravindreddy.github.io/startup-engineering-portfolio-/`](https://daravindreddy.github.io/startup-engineering-portfolio-/)  
+> **Live Interactive Portfolio Web App:** [https://daravindreddy.github.io/startup-engineering-portfolio-/](https://daravindreddy.github.io/startup-engineering-portfolio-/)  
 > **Contributor Project Spec:** [`ALIGNERR_PROJECT_SPECIFICATION.md`](ALIGNERR_PROJECT_SPECIFICATION.md)  
 > **Primary Engineering Domains:** Intelligent Embedded Systems, Linux Kernel & Device Drivers, Industrial IoT, and Systems Programming.
 
@@ -43,7 +43,36 @@ graph TD
 
 ---
 
-## 2. Master Project Inventory & Status Matrix
+## 2. Interactive Web Application & Live Portfolio
+
+The repository features an interactive web application designed to explore systems, inspect source architecture, run interactive terminal queries, and generate technical proposals.
+
+* **Production URL:** [https://daravindreddy.github.io/startup-engineering-portfolio-/](https://daravindreddy.github.io/startup-engineering-portfolio-/)
+* **Continuous Deployment:** Automated via GitHub Actions ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)) on every push to `main`.
+* **Zero-Server Dependency:** Fully self-contained client-side architecture; can be run offline or by opening [`index.html`](index.html) directly in any browser (`file:///` protocol) without CORS blocks.
+
+### Core Web App Capabilities
+* **🌐 Cross-Browser Certified:** Engineered and hardened for Google Chrome, Mozilla Firefox, Apple Safari (macOS & iOS WebKit), Microsoft Edge, and Opera with vendor prefixes, Retina HiDPI canvas scaling, and universal clipboard fallback.
+* **🧠 Silicon-to-Cloud Neural Canvas:** Real-time 2D HTML5 canvas visualizer dynamically tracing data flow from bare-metal microcontrollers through Linux kernel drivers and edge AI to cloud telemetry.
+* **🤖 Aravind AI Neural Copilot:** Client-side natural language assistant capable of fielding architectural inquiries on RTOS concurrency, TinyML mathematical pipelines, Linux device drivers, and project BOM economics.
+* **💻 Cybernetic Terminal Simulator (`KernelOS v3.12-rt`):** Interactive command-line interface with support for `sysinfo`, `uname`, `ls`, `cat`, `verify`, and `clear`.
+* **📦 Systems Catalog & Modal Inspector:** Filterable gallery of 21 verified engineering systems with deep-dive technical specs, hardware schematics, and source links.
+* **📑 IEEE Research Whitepaper Compendium:** Complete reader for 12 formal IEEE-format whitepapers with 1-click citation export.
+* **💼 Automated RFP & Technical Pitch Generator:** Dynamic proposal synthesizer generating tailored enterprise proposals based on industry vertical and project constraints.
+
+#### Local Execution:
+```bash
+# Direct opening in default browser (Chrome / Edge):
+Start-Process index.html
+
+# Or via Python local HTTP server:
+python -m http.server 8080
+# Navigate to http://localhost:8080
+```
+
+---
+
+## 3. Master Project Inventory & Status Matrix
 
 Every project adheres to a strict zero-fabrication mandate: real code, real mathematical models, C++ unit test runners, and publication-grade documentation.
 
@@ -73,7 +102,7 @@ Every project adheres to a strict zero-fabrication mandate: real code, real math
 
 ---
 
-## 3. Research Whitepaper Compendium
+## 4. Research Whitepaper Compendium
 
 All research papers adhere to the formal 13-section IEEE transactions schema with full mathematical modeling and BOM economics. Access the complete index at [`07_RESEARCH_AND_WHITEPAPERS/README.md`](07_RESEARCH_AND_WHITEPAPERS/README.md):
 1. **KW-WP-01:** *Deterministic Cooperative Multitasking and Hysteresis Closed-Loop Automation*
@@ -91,12 +120,16 @@ All research papers adhere to the formal 13-section IEEE transactions schema wit
 
 ---
 
-## 4. Master Repository Structure
+## 5. Master Repository Structure
 
 ```text
 startup-engineering-portfolio/
 │
 ├── README.md                          # Master repository README
+├── index.html                         # Interactive Web App & Portfolio entry point
+├── styles.css                         # Cyberpunk/glassmorphism design system & responsive layout
+├── app.js                             # Core UI engine, Neural Canvas, Terminal & AI Copilot
+├── projects-data.js                   # Master dataset (21 verified systems & 12 whitepapers)
 ├── LICENSE                            # Root MIT License
 ├── CONTRIBUTING.md                    # Git flow, conventional commits, code review policies
 ├── CODE_OF_CONDUCT.md                 # Contributor Covenant Code of Conduct
@@ -106,7 +139,8 @@ startup-engineering-portfolio/
 │
 ├── .github/                           # CI/CD Workflows
 │   └── workflows/
-│       └── ci.yml                     # GitHub Actions Matrix CI (GCC, Clang, Python 3.10-3.12)
+│       ├── ci.yml                     # GitHub Actions Matrix CI (GCC, Clang, Python 3.10-3.12)
+│       └── deploy-pages.yml           # Automated GitHub Pages continuous deployment
 │
 ├── 00_STARTUP_DOCUMENTATION/          # Strategic blueprints, roadmaps, and guidelines
 │   ├── startup_vision.md
@@ -179,7 +213,7 @@ startup-engineering-portfolio/
 
 ---
 
-## 5. Universal Validation & Automated Testing
+## 6. Universal Validation & Automated Testing
 
 A single unified test runner executes the 13 verification suites across C11, C++14, C++17, and Python 3.12:
 
@@ -220,7 +254,7 @@ SUMMARY: 13 Passed, 0 Failed
 
 ---
 
-## 6. Author & Contributor Attribution
+## 7. Author & Contributor Attribution
  
 * **Author & Sole Owner:** **Aravind Reddy**
 * **Contact Email:** [`aravindreddy0726@gmail.com`](mailto:aravindreddy0726@gmail.com)

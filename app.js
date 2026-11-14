@@ -22,13 +22,22 @@ function initArchitectureCanvas() {
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
-  let width = (canvas.width = canvas.parentElement.clientWidth);
-  let height = (canvas.height = 360);
+  let width = canvas.parentElement ? canvas.parentElement.clientWidth : 800;
+  let height = 360;
 
-  window.addEventListener("resize", () => {
-    width = canvas.width = canvas.parentElement.clientWidth;
-    height = canvas.height = 360;
-  });
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    width = canvas.parentElement ? canvas.parentElement.clientWidth : 800;
+    height = 360;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
 
   const layers = [
     { name: "1. Silicon & Physical Sensors", color: "#f59e0b", xRatio: 0.12, sub: "PIC, AVR, nRF52840, ESP32, IMU, DHT" },
@@ -325,9 +334,7 @@ function copyCitation(wpId) {
   const wp = PORTFOLIO_DATA.whitepapers.find((w) => w.id === wpId);
   if (!wp) return;
   const citation = wp.citations;
-  navigator.clipboard.writeText(citation).then(() => {
-    alert(`Copied citation for ${wpId}:\n${citation}`);
-  });
+  safeCopyToClipboard(citation, `Copied citation for ${wpId}:\n${citation}`);
 }
 
 function openProjectModal(projectId) {
@@ -374,10 +381,51 @@ function openProjectModal(projectId) {
   modal.classList.add("open");
 }
 
+function safeCopyToClipboard(text, successMsg) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      if (successMsg) alert(successMsg);
+    }).catch(() => {
+      fallbackCopyToClipboard(text, successMsg);
+    });
+  } else {
+    fallbackCopyToClipboard(text, successMsg);
+  }
+}
+
+function fallbackCopyToClipboard(text, successMsg) {
+  try {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    const successful = document.execCommand("copy");
+    document.body.removeChild(textArea);
+    if (successful) {
+      if (successMsg) alert(successMsg);
+      return;
+    }
+  } catch (err) {
+    // Fallback if execCommand is blocked
+  }
+  prompt("Copy to clipboard (Ctrl+C):", text);
+}
+
 function closeGenericModal() {
   const modal = document.getElementById("genericModal");
   if (modal) modal.classList.remove("open");
 }
+
+// Global cross-browser Escape key dismiss for modal
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeGenericModal();
+  }
+});
 
 /* ==========================================================================
    4. Advanced AI Copilot ("Aravind AI / Kernelwise Neural Copilot")
@@ -597,9 +645,7 @@ The proposed architecture directly leverages battle-tested modules from Aravind 
 function copyProposalText() {
   const container = document.getElementById("proposalTextContainer");
   if (!container) return;
-  navigator.clipboard.writeText(container.innerText).then(() => {
-    alert("Proposal copied to clipboard in Markdown format!");
-  });
+  safeCopyToClipboard(container.innerText, "Proposal copied to clipboard in Markdown format!");
 }
 
 /* ==========================================================================
